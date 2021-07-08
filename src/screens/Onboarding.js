@@ -1,11 +1,20 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Text, SafeAreaView, StyleSheet, View, Image } from "react-native";
 import BotonPersonalizado from "../components/BotonPersonalizado";
 import { Colores } from "../utils/Colores";
 import { margenVertical, width } from "../utils/Dimensiones";
 import image from "../../assets/undraw_Travel_mode_re_2lxo.png";
 
-const Onboarding = () => {
+const Onboarding = ({ navigation }) => {
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('drawerOpen', (e) => {
+      // Do something
+      console.log("drawer")
+    });
+  
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Flig!</Text>
@@ -14,7 +23,7 @@ const Onboarding = () => {
       </View>
       <BotonPersonalizado
         title={"Viajar!"}
-        onPress={() => console.log("Viajá")}
+        onPress={() => navigation.navigate("Home", { text: "Volver atras" })}
         backgroundColor={Colores.primary}
       />
     </SafeAreaView>

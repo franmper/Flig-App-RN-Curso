@@ -1,9 +1,15 @@
-import React from 'react';
-import Onboarding from "./src/screens/Onboarding"
+import "react-native-gesture-handler";
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import AppNavigator from "./src/navigators/AppNavigator";
+import DrawerNavigator from "./src/navigators/DrawerNavigator";
+import BottomNavigator from "./src/navigators/BottomNavigator";
+import TopTabNavigator from "./src/navigators/TopTabNavigator";
 
 export default function App() {
   return (
-    <Onboarding />
+    <NavigationContainer>
+      <TopTabNavigator />
+    </NavigationContainer>
   );
 }
-
