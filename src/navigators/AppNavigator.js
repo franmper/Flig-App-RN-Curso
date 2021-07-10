@@ -20,7 +20,13 @@ const AppNavigator = () => {
         name="Home"
         component={Home}
         options={{
-          headerShown: false,
+          headerStyle: {backgroundColor: Colores.background},
+          headerTintColor: Colores.text,
+          headerTitleStyle: {
+            fontWeight: "bold",
+            fontSize: 25
+          },
+          headerTitleAlign: "center"
         }}
       />
     </AppNav.Navigator>

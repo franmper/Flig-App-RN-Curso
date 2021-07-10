@@ -1,22 +1,39 @@
-import React, { useCallback, useEffect } from "react";
-import { Text, StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View, Text } from "react-native";
 import BotonPersonalizado from "../components/BotonPersonalizado";
 import { Colores } from "../utils/Colores";
-import { margenVertical, width } from "../utils/Dimensiones";
-import { useNavigation, useRoute, useFocusEffect } from "@react-navigation/native";
+import { margenVertical } from "../utils/Dimensiones";
+import {
+  useNavigation,
+  useRoute,
+  useFocusEffect,
+} from "@react-navigation/native";
+import SeleccionarCiudad from "../components/SeleccionarCiudad";
+import { ciudades } from "../utils/Ciudades";
 
-const Home = ({ navigation, route }) => {
+const Home = () => {
+  const [ciudadUno, setCiudadUno] = useState(ciudades[1].name);
+  const [ciudadDos, setCiudadDos] = useState(ciudades[0].name);
+
   const nav = useNavigation();
-  const rte = useRoute();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Home</Text>
-      <BotonPersonalizado
+      <SeleccionarCiudad
+        ciudadSeleccionada={ciudadUno}
+        setCiudad={setCiudadUno}
+        placeholder={"Seleccione ciudad de origen"}
+      />
+      <SeleccionarCiudad
+        ciudadSeleccionada={ciudadDos}
+        setCiudad={setCiudadDos}
+        placeholder={"Seleccione ciudad de destino"}
+      />
+      {/* <BotonPersonalizado
         title={"volver"}
         onPress={() => nav.goBack()}
         backgroundColor={Colores.text}
-      />
+      /> */}
     </View>
   );
 };
@@ -26,7 +43,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colores.background,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   title: {
     color: Colores.text,
