@@ -22,6 +22,7 @@ const SeleccionarCiudad = ({
       {open && (
         <View style={styles.listContainer}>
           <FlatList
+            showsVerticalScrollIndicator={false}
             data={ciudades}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
@@ -45,7 +46,7 @@ const SeleccionarCiudad = ({
 };
 
 const styles = StyleSheet.create({
-  container: { width: 200, marginTop: margenes },
+  container: { width: 230, marginTop: margenes },
   seleccionada: {
     borderBottomColor: Colores.primary,
     borderBottomWidth: 3,
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     height: 150,
-    width: 200,
+    width: 230,
     borderColor: Colores.primary,
     borderWidth: 2,
     padding: 5,

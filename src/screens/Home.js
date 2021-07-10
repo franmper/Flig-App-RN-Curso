@@ -1,39 +1,80 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, TextInput, Text } from "react-native";
 import BotonPersonalizado from "../components/BotonPersonalizado";
 import { Colores } from "../utils/Colores";
-import { margenVertical } from "../utils/Dimensiones";
-import {
-  useNavigation,
-  useRoute,
-  useFocusEffect,
-} from "@react-navigation/native";
+import { margenVertical, margenes } from "../utils/Dimensiones";
+import { useNavigation } from "@react-navigation/native";
 import SeleccionarCiudad from "../components/SeleccionarCiudad";
 import { ciudades } from "../utils/Ciudades";
 
+import { buscarVuelos } from "../services/Fetchers";
+
+const today = new Date();
+
 const Home = () => {
+  const [nombre, setNombre] = useState("");
   const [ciudadUno, setCiudadUno] = useState(ciudades[1].name);
   const [ciudadDos, setCiudadDos] = useState(ciudades[0].name);
-
-  const nav = useNavigation();
+  const [pasajeros, setPasajeros] = useState("0");
+  const [fecha, setFecha] = useState(
+    `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`
+  );
 
   return (
     <View style={styles.container}>
+      <View>
+        <Text style={styles.placeholder}>Como es tu nombre?</Text>
+        <TextInput
+          value={nombre}
+          onChangeText={(value) => setNombre(value)}
+          style={[styles.input, { textAlign: "left" }]}
+          selectTextOnFocus
+        />
+      </View>
       <SeleccionarCiudad
         ciudadSeleccionada={ciudadUno}
         setCiudad={setCiudadUno}
-        placeholder={"Seleccione ciudad de origen"}
+        placeholder={"Seleccioná ciudad de origen"}
       />
       <SeleccionarCiudad
         ciudadSeleccionada={ciudadDos}
         setCiudad={setCiudadDos}
-        placeholder={"Seleccione ciudad de destino"}
+        placeholder={"Seleccioná ciudad de destino"}
       />
-      {/* <BotonPersonalizado
-        title={"volver"}
-        onPress={() => nav.goBack()}
-        backgroundColor={Colores.text}
-      /> */}
+      <View>
+        <Text style={styles.placeholder}>Cantidad de pasajeros</Text>
+        <TextInput
+          value={pasajeros}
+          onChangeText={(value) => setPasajeros(value)}
+          style={styles.input}
+          keyboardType="numeric"
+          selectTextOnFocus
+        />
+      </View>
+      <View>
+        <Text style={styles.placeholder}>Fecha de viaje</Text>
+        <TextInput
+          value={fecha}
+          onChangeText={(value) => setFecha(value)}
+          style={styles.input}
+          keyboardType="numeric"
+        />
+      </View>
+      <View style={{ marginTop: 80 }}>
+        <BotonPersonalizado
+          title={"Buscar"}
+          onPress={() =>
+            buscarVuelos({
+              nombre,
+              ciudadUno,
+              ciudadDos,
+              pasajeros,
+              fecha,
+            })
+          }
+          backgroundColor={Colores.primary}
+        />
+      </View>
     </View>
   );
 };
@@ -52,6 +93,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: margenVertical,
   },
+  input: {
+    width: 230,
+    borderBottomColor: Colores.primary,
+    borderBottomWidth: 3,
+    color: Colores.text,
+    fontSize: 30,
+    paddingHorizontal: 5,
+    textAlign: "center",
+  },
+  placeholder: { color: Colores.text, fontSize: 15, marginTop: 20 },
 });
 
 export default Home;
