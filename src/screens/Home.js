@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, View, TextInput, Text } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Text,
+  ActivityIndicator,
+} from "react-native";
 import BotonPersonalizado from "../components/BotonPersonalizado";
 import { Colores } from "../utils/Colores";
 import { margenVertical, margenes } from "../utils/Dimensiones";
@@ -19,6 +25,24 @@ const Home = () => {
   const [fecha, setFecha] = useState(
     `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`
   );
+  const [cargando, setCargando] = useState(false);
+
+  const navigation = useNavigation();
+
+  if (cargando) {
+    return (
+      <View
+        style={{
+          backgroundColor: "white",
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <ActivityIndicator color={Colores.primary} size={"large"} />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -63,15 +87,19 @@ const Home = () => {
       <View style={{ marginTop: 80 }}>
         <BotonPersonalizado
           title={"Buscar"}
-          onPress={() =>
-            buscarVuelos({
+          onPress={async () => {
+            setCargando(true);
+            const datos = {
               nombre,
               ciudadUno,
               ciudadDos,
               pasajeros,
               fecha,
-            })
-          }
+            };
+            const data = await buscarVuelos(datos);
+            navigation.navigate("Vuelos", { data, datos });
+            setCargando(false);
+          }}
           backgroundColor={Colores.primary}
         />
       </View>

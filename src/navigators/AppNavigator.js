@@ -2,6 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import Onboarding from "../screens/Onboarding";
 import Home from "../screens/Home";
+import Vuelos from "../screens/Vuelos"
 import { Colores } from "../utils/Colores";
 
 const AppNav = createStackNavigator();
@@ -20,13 +21,26 @@ const AppNavigator = () => {
         name="Home"
         component={Home}
         options={{
-          headerStyle: {backgroundColor: Colores.background},
+          headerStyle: { backgroundColor: Colores.background },
           headerTintColor: Colores.text,
           headerTitleStyle: {
             fontWeight: "bold",
-            fontSize: 25
+            fontSize: 25,
           },
-          headerTitleAlign: "center"
+          headerTitleAlign: "center",
+        }}
+      />
+      <AppNav.Screen
+        name="Vuelos"
+        component={Vuelos}
+        options={{
+          headerStyle: { backgroundColor: Colores.background },
+          headerTintColor: Colores.text,
+          headerTitleStyle: {
+            fontWeight: "bold",
+            fontSize: 25,
+          },
+          headerTitleAlign: "center",
         }}
       />
     </AppNav.Navigator>
