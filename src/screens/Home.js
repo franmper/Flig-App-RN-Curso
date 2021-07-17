@@ -6,6 +6,7 @@ import {
   Text,
   ActivityIndicator,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import BotonPersonalizado from "../components/BotonPersonalizado";
 import { Colores } from "../utils/Colores";
 import { margenVertical, margenes } from "../utils/Dimensiones";
@@ -13,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import SeleccionarCiudad from "../components/SeleccionarCiudad";
 import { ciudades } from "../utils/Ciudades";
 
-import { buscarVuelos } from "../services/Fetchers";
+import { actionBuscarVuelos } from "../action/vuelosAction";
 
 const today = new Date();
 
@@ -28,6 +29,8 @@ const Home = () => {
   const [cargando, setCargando] = useState(false);
 
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
 
   if (cargando) {
     return (
@@ -96,9 +99,13 @@ const Home = () => {
               pasajeros,
               fecha,
             };
-            const data = await buscarVuelos(datos);
-            navigation.navigate("Vuelos", { data, datos });
-            setCargando(false);
+            dispatch(
+              actionBuscarVuelos(datos, () => {
+                setCargando(false);
+                navigation.navigate("Vuelos");
+              })
+            );
+            // navigation.navigate("Vuelos", { data, datos });
           }}
           backgroundColor={Colores.primary}
         />

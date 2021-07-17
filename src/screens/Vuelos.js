@@ -1,21 +1,18 @@
 import React, { useEffect } from "react";
 import { View, Text, SafeAreaView, StyleSheet, FlatList } from "react-native";
-import { useRoute } from "@react-navigation/native";
 import { Colores } from "../utils/Colores";
 import { margenVertical, margenes, width, height } from "../utils/Dimensiones";
+import { useSelector } from "react-redux";
 
 const Vuelos = () => {
-  const route = useRoute();
-
-  useEffect(() => {
-    console.log(route.params.datos);
-  }, [route]);
+  const vuelos = useSelector((state) => state.vuelosReducer.vuelos.data);
+  const datos = useSelector((state) => state.vuelosReducer.vuelos.datos);
 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={route.params.data.data}
+        data={vuelos}
         keyExtractor={(item) => item.id}
         ItemSeparatorComponent={() => (
           <View
@@ -39,8 +36,8 @@ const Vuelos = () => {
                   justifyContent: "space-between",
                 }}
               >
-                <Text>Origen: {route.params.datos.ciudadUno}</Text>
-                <Text>Destino: {route.params.datos.ciudadDos}</Text>
+                <Text>Origen: {datos.ciudadUno}</Text>
+                <Text>Destino: {datos.ciudadDos}</Text>
               </View>
               <Text>Precio: ${item.price.grandTotal}</Text>
               <Text>Duración: {item.itineraries[0].duration}</Text>

@@ -1,0 +1,1 @@
+export const BUSCAR_VUELOS = "BUSCAR_VUELOS";
